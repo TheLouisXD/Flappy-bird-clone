@@ -54,7 +54,7 @@ window.onload = function(){
 
     // Asignamos una imagen al pajaro
     birdImg = new Image();
-    birdImg.src = './images/noctulo.png';
+    birdImg.src = './images/flappybird.png';
     // Hacemos que cuando la variable birdImg cargue, esta funcion dibuje el pajaro en el canvas
     birdImg.onload = function() {
         context.drawImage(birdImg,bird.x, bird.y, bird.width, bird.height);

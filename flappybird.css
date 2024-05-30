@@ -27,9 +27,10 @@ body{
 .controles{
     color: white; 
     text-align: center;
-    width: 500px;
+    width: 300px;
     margin: 0 auto;
     background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 footer{
