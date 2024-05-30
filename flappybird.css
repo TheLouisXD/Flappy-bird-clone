@@ -18,17 +18,27 @@ body{
     text-align: center;
 }
 
-.inacap, #board{
-    display: inline;
-    margin-right: 300px;
-    margin-left: 0px;
+iframe{
+    width: 900px;
+    height: 640px;
+    margin-left: -500px;
+    border-radius: 10px;
 }
 
+.inacap, #board{
+    display: inline;
+}
+
+.inacap{
+    margin-right: 50px;
+    margin-left: 400px;
+}
 .controles{
     color: white; 
-    text-align: center;
-    width: 300px;
     margin: 0 auto;
+    width: 300px;
+    margin-right: 160px;
+
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 }
