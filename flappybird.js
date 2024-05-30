@@ -38,6 +38,7 @@ let velocityY = 0; // Velocidad a la que el pajaro salta
 let gravity = 0.4; // Fuerza de gravedad que hace que el pajaro baje
 
 let gameOver = false;
+let score = 0;
 
 window.onload = function(){
     board = document.getElementById("board");
@@ -92,16 +93,42 @@ function update(){
     // Dibujamos el pajaro
     context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 
+    // Logica que determina que si el pajaro se sale de la pantalla, el juego se acaba
+    if (bird.y > board.height){
+        gameOver = true
+    }
+
     // Tuberias
     for (let i = 0; i < pipeArray.length; i++) {
         let pipe = pipeArray[i];
         pipe.x += velocityX;    
         context.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height);
 
+        // si la variable passed de la tuberia es false, ademas de que la posicion x del pajaro es mayor a la posicion x de la tuberia (le sumamos su ancho para asi calcule cuando haya pasado el pajaro al lado derecho de la tuberia).
+        if (!pipe.passed && bird.x > pipe.x + pipeWidth){
+            score += 0.5; // se aumenta en 0.5 por que el codigo cuenta tanto la tuberia de arriba como la de abajo para la puntuacion, por lo cual asi, al pasar por las tuberias se aumenta en 1 y no en 2
+            pipe.passed = true;
+        }
+
         // usamos la funcion de detectar colision para determinar el Game Over
         if (detectCollision(bird,pipe)){
             gameOver = true
         }
+    }
+
+    // Limpiamos las tuberia que estan fuera de la pantalla
+    while (pipeArray.length > 0 && pipeArray[0].x < -pipeWidth){
+        pipeArray.shift(); // Esto elimina el primer elemento del array 
+    }
+
+    // Puntuacion
+    context.fillStyle = "white";
+    context.font = "45px impact";
+    context.fillText(score, 5, 45)
+
+    // Game over
+    if (gameOver){
+        context.fillText("Game Over", 80, 90);
     }
 }
 
@@ -110,6 +137,7 @@ function placePipes(){
     if (gameOver){
         return;
     }
+
     // este codigo permite randomizar la altura de la tuberia superior
     let randomPipeY = pipeY - pipeHeight/4 - Math.random()*(pipeHeight/2);
 
@@ -145,6 +173,14 @@ function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp"){
         // Salto
         velocityY = -6;
+
+        // Reiniciar el juego luego de un game over
+        if (gameOver){
+            bird.y = birdY;
+            pipeArray = [];
+            score = 0;
+            gameOver = false;
+        }
 
     }
 }
