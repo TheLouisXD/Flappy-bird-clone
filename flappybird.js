@@ -37,6 +37,8 @@ let velocityX = -2; // Velocidad a la que las tuberia se mueven a la izquierda
 let velocityY = 0; // Velocidad a la que el pajaro salta
 let gravity = 0.4; // Fuerza de gravedad que hace que el pajaro baje
 
+let gameOver = false;
+
 window.onload = function(){
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -76,6 +78,10 @@ window.onload = function(){
 function update(){
     requestAnimationFrame(update);
 
+    if (gameOver){
+        return;
+    }
+
     // Con esto, borramos el frame anterior para evitar que se sobrepongan
     context.clearRect(0, 0, board.width, board.height);
 
@@ -91,11 +97,19 @@ function update(){
         let pipe = pipeArray[i];
         pipe.x += velocityX;    
         context.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height);
+
+        // usamos la funcion de detectar colision para determinar el Game Over
+        if (detectCollision(bird,pipe)){
+            gameOver = true
+        }
     }
 }
 
 function placePipes(){
 
+    if (gameOver){
+        return;
+    }
     // este codigo permite randomizar la altura de la tuberia superior
     let randomPipeY = pipeY - pipeHeight/4 - Math.random()*(pipeHeight/2);
 
@@ -135,3 +149,10 @@ function moveBird(e) {
     }
 }
 
+// Funcion que detecta la colision con los objetos
+function detectCollision(a, b){
+    return a.x < b.x + b.width &&
+            a.x + a.width > b.x &&
+            a.y < b.y + b.height &&
+            a.y + a.height > b.y;
+}
