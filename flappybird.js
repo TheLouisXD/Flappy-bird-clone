@@ -34,6 +34,8 @@ let bottomPipeImg;
 
 // Fisicas del juego
 let velocityX = -2; // Velocidad a la que las tuberia se mueven a la izquierda
+let velocityY = 0; // Velocidad a la que el pajaro salta
+let gravity = 0.4; // Fuerza de gravedad que hace que el pajaro baje
 
 window.onload = function(){
     board = document.getElementById("board");
@@ -65,6 +67,9 @@ window.onload = function(){
 
     // Este codigo hace que se ejecute la funcion "placePipes" cada 1.5 segundos
     setInterval(placePipes, 1500);
+
+    // Añadimos este event listener para que cuando se presione una tecla, llama a la funcion que hace saltar al pajaro.
+    document.addEventListener("keydown", moveBird);
 }
 
 // Creamos una funcion que va a redibujar el canvas, esto para lograr movimiento en el juego
@@ -74,6 +79,10 @@ function update(){
     // Con esto, borramos el frame anterior para evitar que se sobrepongan
     context.clearRect(0, 0, board.width, board.height);
 
+    // Antes de dibujar al pajaro, cambiamos su posicion Y
+    velocityY += gravity;
+    // bird.y += velocityY;
+    bird.y = Math.max(bird.y + velocityY, 0) // Este codigo aplica la gravedad al pajaro, pero tambien hace que no pueda subir fuera de la pantalla
     // Dibujamos el pajaro
     context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 
@@ -87,14 +96,42 @@ function update(){
 
 function placePipes(){
 
+    // este codigo permite randomizar la altura de la tuberia superior
+    let randomPipeY = pipeY - pipeHeight/4 - Math.random()*(pipeHeight/2);
+
+    // elegimos el tamaño del espacio entre tuberias
+    let openingSpace = board.height/4;
+
     let topPipe = {
         img: topPipeImg,
         x: pipeX,
-        y: pipeY,
+        y: randomPipeY,
         width: pipeWidth,
         height: pipeHeight,
         passed: false
     }
 
     pipeArray.push(topPipe);
+
+    let bottomPipe = {
+        img: bottomPipeImg,
+        x: pipeX,
+        y: randomPipeY + pipeHeight + openingSpace,
+        width: pipeWidth,
+        height: pipeHeight,
+        passed: false
+    }
+
+    pipeArray.push(bottomPipe);
 }
+
+// Funcion encargada de hacer que el pajaro salte
+function moveBird(e) {
+    // en javascript, || significa "or"
+    if (e.code == "Space" || e.code == "ArrowUp"){
+        // Salto
+        velocityY = -6;
+
+    }
+}
+
