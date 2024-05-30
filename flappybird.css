@@ -21,7 +21,7 @@ body{
 .inacap, #board{
     display: inline;
     margin-right: 300px;
-    margin-left: -180px;
+    margin-left: 0px;
 }
 
 .controles{
