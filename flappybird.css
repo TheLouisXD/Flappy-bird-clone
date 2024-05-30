@@ -13,3 +13,19 @@ body{
     margin-top: 35px;
     background-image: url('./images/flappybirdbg.png');
 }
+
+footer{
+    position:absolute;
+    width:100%;
+    bottom:0px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    backdrop-filter: blur(8px);
+    text-align: center;
+
+}
+
+.texto{
+    margin-top: -15px;
+    display: inline;
+}
