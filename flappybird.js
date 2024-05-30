@@ -6,8 +6,8 @@ let boardHeight = 640;
 let context;
 
 // Definimos las caracteristicas del "Pajaro"
-let birdWidth = 34; // ancho/alto ratio = 400/228 -> 17/12
-let birdHeight = 24;
+let birdWidth = 44; // ancho/alto ratio = 400/228 -> 17/12
+let birdHeight = 34;
 let birdImg;
 
 // definimos la posicion inicial del pajaro
@@ -39,6 +39,7 @@ let gravity = 0.4; // Fuerza de gravedad que hace que el pajaro baje
 
 let gameOver = false;
 let score = 0;
+let meruane;
 
 window.onload = function(){
     board = document.getElementById("board");
@@ -53,7 +54,7 @@ window.onload = function(){
 
     // Asignamos una imagen al pajaro
     birdImg = new Image();
-    birdImg.src = './images/flappybird.png';
+    birdImg.src = './images/noctulo.png';
     // Hacemos que cuando la variable birdImg cargue, esta funcion dibuje el pajaro en el canvas
     birdImg.onload = function() {
         context.drawImage(birdImg,bird.x, bird.y, bird.width, bird.height);
@@ -73,6 +74,7 @@ window.onload = function(){
 
     // Añadimos este event listener para que cuando se presione una tecla, llama a la funcion que hace saltar al pajaro.
     document.addEventListener("keydown", moveBird);
+
 }
 
 // Creamos una funcion que va a redibujar el canvas, esto para lograr movimiento en el juego
